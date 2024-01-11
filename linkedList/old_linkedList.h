@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 Austin Choi
+ * See end of file for extended copyright information
+ */
+
 #include <iostream>
 #include <fstream>
 
@@ -62,3 +67,13 @@ namespace Choi
 }
 
 #endif //UNTITLED_LIBRARY_H
+
+/*
+ * Copyright (C) 2024 Austin Choi
+ * 
+ * Data Structures
+ * A collection of my implementations of various data structures in C++
+ *
+ * This code is licensed under the GNU General Public License 3.0.
+ * Please see the LICENSE file in the root directory of this project for the full license details.
+ */
