@@ -5,6 +5,7 @@
 
 // Include header files
 #include <iostream>
+#include "./binaryTree/binaryTree.cpp"
 
 // Preprocessor macro
 #define Log(x) (std::cout << x << std::endl)
@@ -13,6 +14,16 @@ int main(int argc, char* argv[])
 {
     // Write code here
     Log("Data Structures created");
+
+    // Create a binary tree
+    BinaryTree tree;
+    tree.insert(5, tree.root);
+    Log(tree.root->data);
+    tree.insert(3, tree.root);
+    tree.insert(7, tree.root);
+    Log(tree.root->data);
+
+    /* tree.preorder(tree.getRoot(), [](Node* node) { Log(node->data); }); */
 
     // End program
     return 0;
