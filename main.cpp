@@ -12,18 +12,31 @@
 
 int main(int argc, char* argv[])
 {
-    // Write code here
-    Log("Data Structures created");
-
     // Create a binary tree
     BinaryTree tree;
     tree.insert(5, tree.root);
-    Log(tree.root->data);
-    tree.insert(3, tree.root);
     tree.insert(7, tree.root);
-    Log(tree.root->data);
+    tree.insert(2, tree.root);
+    tree.insert(3, tree.root);
+    tree.insert(4, tree.root);
+    tree.insert(6, tree.root);
+    tree.insert(8, tree.root);
 
-    /* tree.preorder(tree.getRoot(), [](Node* node) { Log(node->data); }); */
+    tree.preorder(tree.getRoot(), [](Node* node) { std::cout << node->data << " "; });
+    Log("");
+    /* tree.postorder(tree.getRoot(), [](Node* node) { std::cout << node->data; }); */
+    /* Log(""); */
+    /* tree.inorder(tree.getRoot(), [](Node* node) { std::cout << node->data; }); */
+    /* Log(""); */
+
+    tree.preorder(tree.getRoot(), [](Node* node) { node->data *= 2; });
+
+    tree.preorder(tree.getRoot(), [](Node* node) { std::cout << node->data << " "; });
+
+    Log("");
+
+    /* Log(tree.search(tree.getRoot(), [](Node* node) { return node->data == 2; })->data); */
+
 
     // End program
     return 0;

@@ -24,18 +24,16 @@ BinaryTree::BinaryTree(int data) : root(nullptr)
 BinaryTree::~BinaryTree()
 {
     /* deleteTree(root); */
-
-    postorder(root, [](Node* node) { delete node; });
+    postorder(getRoot(), [](Node* node) { delete node; return; });
 }
 
 void BinaryTree::deleteTree(Node* leaf)
 {
-    if(leaf != nullptr)
-    {
-        deleteTree(leaf->left);
-        deleteTree(leaf->right);
-        delete leaf;
-    }
+    if(leaf == nullptr)
+        return;
+    deleteTree(leaf->right);
+    deleteTree(leaf->left);
+    delete leaf;
 }
 
 bool BinaryTree::isEmpty()
@@ -45,48 +43,36 @@ bool BinaryTree::isEmpty()
 
 void BinaryTree::insert(int data, Node* leaf)
 {
-    Log("Inserting " << data);
-    if(isEmpty()) [[unlikely]]
+    if(isEmpty())
     {
-        Log("Leaf is null");
-        leaf = new Node;
-        leaf->data = data;
-        Log("Root: " << leaf->data);
-        leaf->left = nullptr;
-        Log("Root left null");
-        leaf->right = nullptr;
-        Log("Root right null");
-        Log("Leaf: " << leaf->data);
+        root = new Node;
+        root->data = data;
+        root->left = nullptr;
+        root->right = nullptr;
         return;
     }
-    if(leaf->left == nullptr && leaf->right == nullptr)
+    if(data < leaf->data)
     {
-        if(data < leaf->data)
+        if(leaf->left != nullptr)
+          insert(data, leaf->left);
+        else
         {
             leaf->left = new Node;
             leaf->left->data = data;
             leaf->left->left = nullptr;
             leaf->left->right = nullptr;
-            return;
         }
-        else if(data >= leaf->data)
+    }
+    else if(data >= leaf->data)
+    {
+        if(leaf->right != nullptr)
+          insert(data, leaf->right);
+        else
         {
             leaf->right = new Node;
             leaf->right->data = data;
             leaf->right->left = nullptr;
             leaf->right->right = nullptr;
-            return;
-        }
-    }
-    else
-    {
-        if(data < leaf->data)
-        {
-            insert(data, leaf->left);
-        }
-        else if(data >= leaf->data)
-        {
-            insert(data, leaf->right);
         }
     }
 }
@@ -99,9 +85,8 @@ void BinaryTree::preorder(Node* node, Function f)
     if(node == nullptr)
       return;
     f(node);
-    preorder(root->left, f);
-    preorder(root->right, f);
-    return;
+    preorder(node->left, f);
+    preorder(node->right, f);
 }
 
 template <typename Function>
@@ -109,10 +94,9 @@ void BinaryTree::inorder(Node* node, Function f)
 {
     if(node == nullptr)
       return;
-    inorder(root->left, f);
+    inorder(node->left, f);
     f(node);
-    inorder(root->right, f);
-    return;
+    inorder(node->right, f);
 }
 
 template <typename Function>
@@ -120,10 +104,32 @@ void BinaryTree::postorder(Node* node, Function f)
 {
     if(node == nullptr)
       return;
-    postorder(root->left, f);
-    postorder(root->right, f);
+    postorder(node->left, f);
+    postorder(node->right, f);
     f(node);
-    return;
+}
+
+template <typename Function>
+Node* BinaryTree::search(Node* node, Function f)
+{
+    Node* result = nullptr;
+    if(f(node))
+        return node;
+    if(node == nullptr)
+        return nullptr;
+    if(node->left != nullptr)
+    {
+        result = search(node->left, f);
+        if(result != nullptr)
+            return result;
+    }
+    if(node->right != nullptr)
+    {
+        result = search(node->right, f);
+        if(result != nullptr)
+            return result;
+    }
+    return nullptr;
 }
 
 /*

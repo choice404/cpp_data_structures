@@ -31,9 +31,13 @@ public:
     template <typename Function>
     void postorder(Node*, Function);
 
+    template <typename Function>
+    Node* search(Node*, Function);
+
     void deleteTree(Node*);
 
     bool isEmpty();
+
 
 public:
     Node* root;
